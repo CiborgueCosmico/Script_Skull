@@ -5,7 +5,7 @@ local OrionLib = loadstring(game:HttpGet(('https://raw.githubusercontent.com/shl
 local AutoFarm = loadstring(game:HttpGet("https://raw.githubusercontent.com/CiborgueCosmico/Script_Skull/main/AutoFarm.lua"))()
 local AutoRaid = loadstring(game:HttpGet("https://raw.githubusercontent.com/CiborgueCosmico/Script_Skull/main/AutoRaid.lua"))()
 local AutoStats = loadstring(game:HttpGet("https://raw.githubusercontent.com/CiborgueCosmico/Script_Skull/main/AutoStats.lua"))()
-local AutoSecondSea = loadstring(game:HttpGet("https://raw.githubusercontent.com/CiborgueCosmico/Script_Skull/main/AutoSecondSea.lua"))()  -- Novo arquivo adicionado
+local AutoSecondSea = loadstring(game:HttpGet("https://raw.githubusercontent.com/CiborgueCosmico/Script_Skull/main/AutoSecondSea.lua"))()
 local AutoThirdSea = loadstring(game:HttpGet("https://raw.githubusercontent.com/CiborgueCosmico/Script_Skull/main/AutoThirdSea.lua"))()
 local BossFarm = loadstring(game:HttpGet("https://raw.githubusercontent.com/CiborgueCosmico/Script_Skull/main/BossFarm.lua"))()
 local Combat = loadstring(game:HttpGet("https://raw.githubusercontent.com/CiborgueCosmico/Script_Skull/main/Combat.lua"))()
@@ -25,6 +25,17 @@ local Window = OrionLib:MakeWindow({
     SaveConfig = false,
     ConfigFolder = "SkullHub"
 })
+
+-- ### Aba Main ###
+local MainTab = Window:MakeTab({
+    Name = "Main",
+    Icon = "rbxassetid://4483345998",
+    PremiumOnly = false
+})
+
+MainTab:AddSection({Name = "Informações"})
+MainTab:AddLabel("Skull Hub - Feito por CiborgueCosmico")
+MainTab:AddLabel("Data: " .. os.date("%d/%m/%Y"))
 
 -- ### Aba Auto Farm ###
 local AutoFarmTab = Window:MakeTab({
@@ -47,6 +58,52 @@ AutoFarmTab:AddToggle({
         OrionLib:MakeNotification({
             Name = "Skull Hub",
             Content = "Auto Farm Mobs " .. (value and "ativado" or "desativado"),
+            Time = 3
+        })
+    end
+})
+
+AutoFarmTab:AddSection({Name = "Fruit Collect"})
+AutoFarmTab:AddToggle({
+    Name = "Auto Collect Fruits",
+    Default = false,
+    Callback = function(value)
+        _G.AutoCollectFruits = value
+        if value then
+            FruitCollect.StartCollect()
+        else
+            FruitCollect.StopCollect()
+        end
+        OrionLib:MakeNotification({
+            Name = "Skull Hub",
+            Content = "Auto Collect Fruits " .. (value and "ativado" or "desativado"),
+            Time = 3
+        })
+    end
+})
+
+AutoFarmTab:AddSection({Name = "Sea Progression"})
+AutoFarmTab:AddToggle({
+    Name = "Auto Second Sea",
+    Default = false,
+    Callback = function(value)
+        _G.AutoSecondSea = value
+        OrionLib:MakeNotification({
+            Name = "Skull Hub",
+            Content = "Auto Second Sea " .. (value and "ativado" or "desativado"),
+            Time = 3
+        })
+    end
+})
+
+AutoFarmTab:AddToggle({
+    Name = "Auto Third Sea",
+    Default = false,
+    Callback = function(value)
+        _G.AutoThirdSea = value
+        OrionLib:MakeNotification({
+            Name = "Skull Hub",
+            Content = "Auto Third Sea " .. (value and "ativado" or "desativado"),
             Time = 3
         })
     end
@@ -104,47 +161,64 @@ RaidTab:AddToggle({
     end
 })
 
--- ### Aba Stats ###
-local StatsTab = Window:MakeTab({
-    Name = "Stats",
+-- ### Aba Farm Itens ###
+local FarmItemsTab = Window:MakeTab({
+    Name = "Farm Itens",
     Icon = "rbxassetid://4483345998",
     PremiumOnly = false
 })
 
-StatsTab:AddSection({Name = "Auto Stats"})
-StatsTab:AddToggle({
-    Name = "Auto Stats",
+FarmItemsTab:AddSection({Name = "Cursed Dual Katana (CDK)"})
+FarmItemsTab:AddToggle({
+    Name = "Auto Farm CDK",
     Default = false,
     Callback = function(value)
-        _G.AutoStats = value
+        _G.AutoCDK = value
         if value then
-            AutoStats.StartAutoStats()
+            FarmItemsCDK.StartCDKFarm()
         else
-            AutoStats.StopAutoStats()
+            FarmItemsCDK.StopCDKFarm()
         end
         OrionLib:MakeNotification({
             Name = "Skull Hub",
-            Content = "Auto Stats " .. (value and "ativado" or "desativado"),
+            Content = "Auto Farm CDK " .. (value and "ativado" or "desativado"),
             Time = 3
         })
     end
 })
 
--- ### Aba Teleport ###
-local TeleportTab = Window:MakeTab({
-    Name = "Teleport",
-    Icon = "rbxassetid://4483345998",
-    PremiumOnly = false
-})
-
-TeleportTab:AddSection({Name = "Teleport Options"})
-TeleportTab:AddButton({
-    Name = "Teleport to Sea 1",
-    Callback = function()
-        Teleport.toSea1()
+FarmItemsTab:AddSection({Name = "Haki"})
+FarmItemsTab:AddToggle({
+    Name = "Auto Colored Haki",
+    Default = false,
+    Callback = function(value)
+        _G.AutoColoredHaki = value
+        if value then
+            Haki.StartColoredHaki()
+        else
+            Haki.StopColoredHaki()
+        end
         OrionLib:MakeNotification({
             Name = "Skull Hub",
-            Content = "Teleportando para Sea 1...",
+            Content = "Auto Colored Haki " .. (value and "ativado" or "desativado"),
+            Time = 3
+        })
+    end
+})
+
+FarmItemsTab:AddToggle({
+    Name = "Auto Legendary Haki",
+    Default = false,
+    Callback = function(value)
+        _G.AutoLegendaryHaki = value
+        if value then
+            Haki.StartLegendaryHaki()
+        else
+            Haki.StopLegendaryHaki()
+        end
+        OrionLib:MakeNotification({
+            Name = "Skull Hub",
+            Content = "Auto Legendary Haki " .. (value and "ativado" or "desativado"),
             Time = 3
         })
     end
@@ -176,112 +250,27 @@ MiscTab:AddToggle({
     end
 })
 
--- ### Aba Haki ###
-local HakiTab = Window:MakeTab({
-    Name = "Haki",
-    Icon = "rbxassetid://4483345998",
-    PremiumOnly = false
-})
-
-HakiTab:AddSection({Name = "Colored Haki"})
-HakiTab:AddToggle({
-    Name = "Auto Colored Haki",
+MiscTab:AddSection({Name = "Stats"})
+MiscTab:AddToggle({
+    Name = "Auto Stats",
     Default = false,
     Callback = function(value)
-        _G.AutoColoredHaki = value
+        _G.AutoStats = value
         if value then
-            Haki.StartColoredHaki()
+            AutoStats.StartAutoStats()
         else
-            Haki.StopColoredHaki()
+            AutoStats.StopAutoStats()
         end
         OrionLib:MakeNotification({
             Name = "Skull Hub",
-            Content = "Auto Colored Haki " .. (value and "ativado" or "desativado"),
+            Content = "Auto Stats " .. (value and "ativado" or "desativado"),
             Time = 3
         })
     end
 })
 
-HakiTab:AddSection({Name = "Legendary Haki"})
-HakiTab:AddToggle({
-    Name = "Auto Legendary Haki",
-    Default = false,
-    Callback = function(value)
-        _G.AutoLegendaryHaki = value
-        if value then
-            Haki.StartLegendaryHaki()
-        else
-            Haki.StopLegendaryHaki()
-        end
-        OrionLib:MakeNotification({
-            Name = "Skull Hub",
-            Content = "Auto Legendary Haki " .. (value and "ativado" or "desativado"),
-            Time = 3
-        })
-    end
-})
-
--- ### Aba Fruit Collect ###
-local FruitTab = Window:MakeTab({
-    Name = "Fruit Collect",
-    Icon = "rbxassetid://4483345998",
-    PremiumOnly = false
-})
-
-FruitTab:AddSection({Name = "Auto Collect Fruits"})
-FruitTab:AddToggle({
-    Name = "Auto Collect Fruits",
-    Default = false,
-    Callback = function(value)
-        _G.AutoCollectFruits = value
-        if value then
-            FruitCollect.StartCollect()
-        else
-            FruitCollect.StopCollect()
-        end
-        OrionLib:MakeNotification({
-            Name = "Skull Hub",
-            Content = "Auto Collect Fruits " .. (value and "ativado" or "desativado"),
-            Time = 3
-        })
-    end
-})
-
--- ### Aba ESP ###
-local ESPTab = Window:MakeTab({
-    Name = "ESP",
-    Icon = "rbxassetid://4483345998",
-    PremiumOnly = false
-})
-
-ESPTab:AddSection({Name = "ESP Options"})
-ESPTab:AddToggle({
-    Name = "Enable ESP",
-    Default = false,
-    Callback = function(value)
-        _G.EnableESP = value
-        if value then
-            ESP.Enable()
-        else
-            ESP.Disable()
-        end
-        OrionLib:MakeNotification({
-            Name = "Skull Hub",
-            Content = "ESP " .. (value and "ativado" or "desativado"),
-            Time = 3
-        })
-    end
-})
-
--- ### Aba Combat ###
-local CombatTab = Window:MakeTab({
-    Name = "Combat",
-    Icon = "rbxassetid://4483345998",
-    PremiumOnly = false
-})
-
-CombatTab:AddSection({Name = "Combat Options"})
-CombatTab:AddToggle({
+MiscTab:AddSection({Name = "Combat"})
+MiscTab:AddToggle({
     Name = "Auto Attack",
     Default = false,
     Callback = function(value)
@@ -299,79 +288,40 @@ CombatTab:AddToggle({
     end
 })
 
--- ### Aba Farm Items ###
-local FarmItemsTab = Window:MakeTab({
-    Name = "Farm Items",
-    Icon = "rbxassetid://4483345998",
-    PremiumOnly = false
-})
-
-FarmItemsTab:AddSection({Name = "Cursed Dual Katana (CDK)"})
-FarmItemsTab:AddToggle({
-    Name = "Auto Farm CDK",
+MiscTab:AddSection({Name = "ESP"})
+MiscTab:AddToggle({
+    Name = "Enable ESP",
     Default = false,
     Callback = function(value)
-        _G.AutoCDK = value
+        _G.EnableESP = value
         if value then
-            FarmItemsCDK.StartCDKFarm()
+            ESP.Enable()
         else
-            FarmItemsCDK.StopCDKFarm()
+            ESP.Disable()
         end
         OrionLib:MakeNotification({
             Name = "Skull Hub",
-            Content = "Auto Farm CDK " .. (value and "ativado" or "desativado"),
+            Content = "ESP " .. (value and "ativado" or "desativado"),
             Time = 3
         })
     end
 })
 
--- ### Aba Second Sea ###
-local SecondSeaTab = Window:MakeTab({
-    Name = "Second Sea",
+-- ### Aba Teleport ###
+local TeleportTab = Window:MakeTab({
+    Name = "Teleport",
     Icon = "rbxassetid://4483345998",
     PremiumOnly = false
 })
 
-SecondSeaTab:AddSection({Name = "Auto Second Sea"})
-SecondSeaTab:AddToggle({
-    Name = "Auto Second Sea",
-    Default = false,
-    Callback = function(value)
-        _G.AutoSecondSea = value
-        if value then
-            AutoSecondSea.Enable()  -- Ajuste para a função correta
-        else
-            AutoSecondSea.Disable()  -- Ajuste para a função correta
-        end
+TeleportTab:AddSection({Name = "Teleport Options"})
+TeleportTab:AddButton({
+    Name = "Teleport to Sea 1",
+    Callback = function()
+        Teleport.toSea1()
         OrionLib:MakeNotification({
             Name = "Skull Hub",
-            Content = "Auto Second Sea " .. (value and "ativado" or "desativado"),
-            Time = 3
-        })
-    end
-})
-
--- ### Aba Third Sea ###
-local ThirdSeaTab = Window:MakeTab({
-    Name = "Third Sea",
-    Icon = "rbxassetid://4483345998",
-    PremiumOnly = false
-})
-
-ThirdSeaTab:AddSection({Name = "Auto Third Sea"})
-ThirdSeaTab:AddToggle({
-    Name = "Auto Third Sea",
-    Default = false,
-    Callback = function(value)
-        _G.AutoThirdSea = value
-        if value then
-            AutoThirdSea.Enable()
-        else
-            AutoThirdSea.Disable()
-        end
-        OrionLib:MakeNotification({
-            Name = "Skull Hub",
-            Content = "Auto Third Sea " .. (value and "ativado" or "desativado"),
+            Content = "Teleportando para Sea 1...",
             Time = 3
         })
     end
