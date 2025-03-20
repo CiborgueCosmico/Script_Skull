@@ -36,19 +36,19 @@ local function loadModule(url)
     return loadstring(game:HttpGet(url))()
 end
 
--- Carregar módulos (substitua 'username' pelo seu usuário do GitHub)
-local AutoFarm = loadModule("https://raw.githubusercontent.com/username/SlaHub/main/AutoFarm.lua")
-local BossFarm = loadModule("https://raw.githubusercontent.com/username/SlaHub/main/BossFarm.lua")
-local AutoRaid = loadModule("https://raw.githubusercontent.com/username/SlaHub/main/AutoRaid.lua")
-local AutoThirdSea = loadModule("https://raw.githubusercontent.com/username/SlaHub/main/AutoThirdSea.lua")
-local AutoStats = loadModule("https://raw.githubusercontent.com/username/SlaHub/main/AutoStats.lua")
-local ESP = loadModule("https://raw.githubusercontent.com/username/SlaHub/main/ESP.lua")
-local FruitCollect = loadModule("https://raw.githubusercontent.com/username/SlaHub/main/FruitCollect.lua")
-local Teleport = loadModule("https://raw.githubusercontent.com/username/SlaHub/main/Teleport.lua")
-local Combat = loadModule("https://raw.githubusercontent.com/username/SlaHub/main/Combat.lua")
-local Misc = loadModule("https://raw.githubusercontent.com/username/SlaHub/main/Misc.lua")
-local UI = loadModule("https://raw.githubusercontent.com/username/SlaHub/main/UI.lua")
-local Utils = loadModule("https://raw.githubusercontent.com/username/SlaHub/main/Utils.lua")
+-- Carregar módulos
+local AutoFarm = loadModule("https://raw.githubusercontent.com/CiborgueCosmico/Script_Skull/main/AutoFarm.lua")
+local BossFarm = loadModule("https://raw.githubusercontent.com/CiborgueCosmico/Script_Skull/main/BossFarm.lua")
+local AutoRaid = loadModule("https://raw.githubusercontent.com/CiborgueCosmico/Script_Skull/main/AutoRaid.lua")
+local AutoThirdSea = loadModule("https://raw.githubusercontent.com/CiborgueCosmico/Script_Skull/main/AutoThirdSea.lua")
+local AutoStats = loadModule("https://raw.githubusercontent.com/CiborgueCosmico/Script_Skull/main/AutoStats.lua")
+local ESP = loadModule("https://raw.githubusercontent.com/CiborgueCosmico/Script_Skull/main/ESP.lua")
+local FruitCollect = loadModule("https://raw.githubusercontent.com/CiborgueCosmico/Script_Skull/main/FruitCollect.lua")
+local Teleport = loadModule("https://raw.githubusercontent.com/CiborgueCosmico/Script_Skull/main/Teleport.lua")
+local Combat = loadModule("https://raw.githubusercontent.com/CiborgueCosmico/Script_Skull/main/Combat.lua")
+local Misc = loadModule("https://raw.githubusercontent.com/CiborgueCosmico/Script_Skull/main/Misc.lua")
+local UI = loadModule("https://raw.githubusercontent.com/CiborgueCosmico/Script_Skull/main/UI.lua")
+local Utils = loadModule("https://raw.githubusercontent.com/CiborgueCosmico/Script_Skull/main/Utils.lua")
 
 -- Passar OrionLib para o módulo UI
 _G.OrionLib = OrionLib
@@ -58,7 +58,7 @@ UI.Init()
 
 -- Notificação de carregamento
 OrionLib:MakeNotification({
-    Name = "Sla Hub",
+    Name = "Skull Hub",
     Content = "Script loaded successfully!",
     Time = 5
 })
