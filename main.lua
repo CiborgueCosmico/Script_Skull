@@ -1,64 +1,100 @@
 -- main.lua
-local OrionLib = loadstring(game:HttpGet('https://raw.githubusercontent.com/shlexware/Orion/main/source'))()
+local OrionLib = loadstring(game:HttpGet(('https://raw.githubusercontent.com/shlexware/Orion/main/source')))()
 
--- Variáveis Globais
-_G = _G or {}
-_G.AutoFarm = false
-_G.AutoFarmBoss = false
-_G.AutoFarmAllBosses = false
-_G.SelectedBoss = "Rip Indra"
-_G.SelectWeapon = "Melee"
-_G.BringMob = true
-_G.AutoHaki = false
-_G.BypassTP = false
-_G.ESPPlayer = false
-_G.ChestESP = false
-_G.DevilFruitESP = false
-_G.Remove_Effect = true
-_G.AutoFruitCollect = false
-_G.AutoQuestBoss = true
-_G.FastAttack = false
-_G.AttackDelay = 0.15
-_G.MaxAttacksPerBurst = 3
-_G.AutoRaid = false
-_G.SelectedRaid = "Buddha"
-_G.AutoStats = false
-_G.Stats = {Melee = false, Defense = false, Sword = false, Gun = false, Fruit = false}
-_G.StatPoints = 3
-_G.AutoThirdSea = false
-_G.AutoSetSpawn = false
-_G.World1 = game:GetService("Players").LocalPlayer.Data.World.Value == 1
-_G.World2 = game:GetService("Players").LocalPlayer.Data.World.Value == 2
-_G.World3 = game:GetService("Players").LocalPlayer.Data.World.Value == 3
+-- Carregar os arquivos de funcionalidades
+local FarmItemsCDK = loadstring(game:HttpGet("https://raw.githubusercontent.com/CiborgueCosmico/Script_Skull/main/FarmItems_CDK.lua"))()
+local AutoThirdSea = loadstring(game:HttpGet("https://raw.githubusercontent.com/CiborgueCosmico/Script_Skull/main/AutoThirdSea.lua"))()
+local Haki = loadstring(game:HttpGet("https://raw.githubusercontent.com/CiborgueCosmico/Script_Skull/main/Haki.lua"))()
 
--- Função para carregar módulos
-local function loadModule(url)
-    return loadstring(game:HttpGet(url))()
-end
-
--- Carregar módulos
-local AutoFarm = loadModule("https://raw.githubusercontent.com/CiborgueCosmico/Script_Skull/main/AutoFarm.lua")
-local BossFarm = loadModule("https://raw.githubusercontent.com/CiborgueCosmico/Script_Skull/main/BossFarm.lua")
-local AutoRaid = loadModule("https://raw.githubusercontent.com/CiborgueCosmico/Script_Skull/main/AutoRaid.lua")
-local AutoThirdSea = loadModule("https://raw.githubusercontent.com/CiborgueCosmico/Script_Skull/main/AutoThirdSea.lua")
-local AutoStats = loadModule("https://raw.githubusercontent.com/CiborgueCosmico/Script_Skull/main/AutoStats.lua")
-local ESP = loadModule("https://raw.githubusercontent.com/CiborgueCosmico/Script_Skull/main/ESP.lua")
-local FruitCollect = loadModule("https://raw.githubusercontent.com/CiborgueCosmico/Script_Skull/main/FruitCollect.lua")
-local Teleport = loadModule("https://raw.githubusercontent.com/CiborgueCosmico/Script_Skull/main/Teleport.lua")
-local Combat = loadModule("https://raw.githubusercontent.com/CiborgueCosmico/Script_Skull/main/Combat.lua")
-local Misc = loadModule("https://raw.githubusercontent.com/CiborgueCosmico/Script_Skull/main/Misc.lua")
-local UI = loadModule("https://raw.githubusercontent.com/CiborgueCosmico/Script_Skull/main/UI.lua")
-local Utils = loadModule("https://raw.githubusercontent.com/CiborgueCosmico/Script_Skull/main/Utils.lua")
-
--- Passar OrionLib para o módulo UI
-_G.OrionLib = OrionLib
-
--- Inicializar UI
-UI.Init()
-
--- Notificação de carregamento
-OrionLib:MakeNotification({
+-- Criar a janela principal do Skull Hub
+local Window = OrionLib:MakeWindow({
     Name = "Skull Hub",
-    Content = "Script loaded successfully!",
-    Time = 5
+    IntroText = "Welcome to Skull Hub",
+    HidePremium = true,
+    SaveConfig = false,
+    ConfigFolder = "SkullHub"
 })
+
+-- Aba para Farm Items
+local FarmTab = Window:MakeTab({
+    Name = "Farm Items",
+    Icon = "rbxassetid://4483345998",
+    PremiumOnly = false
+})
+
+-- Seção para CDK
+FarmTab:AddSection({Name = "Cursed Dual Katana (CDK)"})
+FarmTab:AddToggle({
+    Name = "Auto CDK",
+    Default = false,
+    Callback = function(value)
+        _G.AutoCDK = value
+        OrionLib:MakeNotification({
+            Name = "Skull Hub",
+            Content = "Auto CDK " .. (value and "enabled" or "disabled"),
+            Time = 3
+        })
+    end
+})
+
+-- Aba para Third Sea
+local ThirdSeaTab = Window:MakeTab({
+    Name = "Third Sea",
+    Icon = "rbxassetid://4483345998",
+    PremiumOnly = false
+})
+
+-- Seção para Auto Third Sea
+ThirdSeaTab:AddSection({Name = "Auto Third Sea"})
+ThirdSeaTab:AddToggle({
+    Name = "Auto Third Sea",
+    Default = false,
+    Callback = function(value)
+        _G.AutoThirdSea = value
+        OrionLib:MakeNotification({
+            Name = "Skull Hub",
+            Content = "Auto Third Sea " .. (value and "enabled" or "disabled"),
+            Time = 3
+        })
+    end
+})
+
+-- Aba para Haki
+local HakiTab = Window:MakeTab({
+    Name = "Haki",
+    Icon = "rbxassetid://4483345998",
+    PremiumOnly = false
+})
+
+-- Seção para Hakis Coloridos
+HakiTab:AddSection({Name = "Colored Haki"})
+HakiTab:AddToggle({
+    Name = "Auto Colored Haki",
+    Default = false,
+    Callback = function(value)
+        _G.AutoColoredHaki = value
+        OrionLib:MakeNotification({
+            Name = "Skull Hub",
+            Content = "Auto Colored Haki " .. (value and "enabled" or "disabled"),
+            Time = 3
+        })
+    end
+})
+
+-- Seção para Haki Lendário
+HakiTab:AddSection({Name = "Legendary Haki"})
+HakiTab:AddToggle({
+    Name = "Auto Legendary Haki",
+    Default = false,
+    Callback = function(value)
+        _G.AutoLegendaryHaki = value
+        OrionLib:MakeNotification({
+            Name = "Skull Hub",
+            Content = "Auto Legendary Haki " .. (value and "enabled" or "disabled"),
+            Time = 3
+        })
+    end
+})
+
+-- Inicializar a UI
+OrionLib:Init()
