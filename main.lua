@@ -5,6 +5,7 @@ local OrionLib = loadstring(game:HttpGet(('https://raw.githubusercontent.com/shl
 local AutoFarm = loadstring(game:HttpGet("https://raw.githubusercontent.com/CiborgueCosmico/Script_Skull/main/AutoFarm.lua"))()
 local AutoRaid = loadstring(game:HttpGet("https://raw.githubusercontent.com/CiborgueCosmico/Script_Skull/main/AutoRaid.lua"))()
 local AutoStats = loadstring(game:HttpGet("https://raw.githubusercontent.com/CiborgueCosmico/Script_Skull/main/AutoStats.lua"))()
+local AutoSecondSea = loadstring(game:HttpGet("https://raw.githubusercontent.com/CiborgueCosmico/Script_Skull/main/AutoSecondSea.lua"))()  -- Novo arquivo adicionado
 local AutoThirdSea = loadstring(game:HttpGet("https://raw.githubusercontent.com/CiborgueCosmico/Script_Skull/main/AutoThirdSea.lua"))()
 local BossFarm = loadstring(game:HttpGet("https://raw.githubusercontent.com/CiborgueCosmico/Script_Skull/main/BossFarm.lua"))()
 local Combat = loadstring(game:HttpGet("https://raw.githubusercontent.com/CiborgueCosmico/Script_Skull/main/Combat.lua"))()
@@ -319,6 +320,32 @@ FarmItemsTab:AddToggle({
         OrionLib:MakeNotification({
             Name = "Skull Hub",
             Content = "Auto Farm CDK " .. (value and "ativado" or "desativado"),
+            Time = 3
+        })
+    end
+})
+
+-- ### Aba Second Sea ###
+local SecondSeaTab = Window:MakeTab({
+    Name = "Second Sea",
+    Icon = "rbxassetid://4483345998",
+    PremiumOnly = false
+})
+
+SecondSeaTab:AddSection({Name = "Auto Second Sea"})
+SecondSeaTab:AddToggle({
+    Name = "Auto Second Sea",
+    Default = false,
+    Callback = function(value)
+        _G.AutoSecondSea = value
+        if value then
+            AutoSecondSea.Enable()  -- Ajuste para a função correta
+        else
+            AutoSecondSea.Disable()  -- Ajuste para a função correta
+        end
+        OrionLib:MakeNotification({
+            Name = "Skull Hub",
+            Content = "Auto Second Sea " .. (value and "ativado" or "desativado"),
             Time = 3
         })
     end
